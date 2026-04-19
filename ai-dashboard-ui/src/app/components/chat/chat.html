@@ -1,0 +1,38 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="header-left">
+      <h2>AI Dashboard</h2>
+      <span class="status">● Online</span>
+    </div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="chat-messages">
+    <div class="welcome" *ngIf="messages.length === 0">
+      <h3>Welcome to AI Dashboard! 👋</h3>
+      <p>Ask me anything — I'm powered by Mistral AI running locally on your PC.</p>
+    </div>
+
+    <div *ngFor="let msg of messages" class="message" [class.user]="msg.role === 'user'" [class.ai]="msg.role === 'ai'">
+      <div class="bubble">{{ msg.text }}</div>
+    </div>
+
+    <div class="typing" *ngIf="loading">
+      <div class="bubble">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <textarea
+      [(ngModel)]="message"
+      (keydown)="onKeyPress($event)"
+      placeholder="Ask anything... (Press Enter to send)"
+      rows="1">
+    </textarea>
+    <button (click)="sendMessage()" [disabled]="loading || !message.trim()">
+      Send
+    </button>
+  </div>
+</div>
